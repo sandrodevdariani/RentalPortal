@@ -1,0 +1,26 @@
+@model IReadOnlyList<StatusHistoryItemViewModel>
+<section class="history">
+    <h2>Review history</h2>
+    @if (Model.Count == 0)
+    {
+        <p class="empty">No status changes yet.</p>
+    }
+    else
+    {
+        <ol class="timeline">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <div>
+                        <strong>@item.Description</strong>
+                        <span class="quiet">@item.Actor · @item.ChangedAt.LocalDateTime.ToString("MMM d, yyyy h:mm tt")</span>
+                    </div>
+                    @if (!string.IsNullOrWhiteSpace(item.Comment))
+                    {
+                        <p>@item.Comment</p>
+                    }
+                </li>
+            }
+        </ol>
+    }
+</section>

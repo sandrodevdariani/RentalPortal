@@ -1,0 +1,70 @@
+@model ApplicationWizardViewModel
+<div id="application-page">
+    <section class="page-head">
+        <div>
+            <p class="kicker">@Model.PropertyName · Unit @Model.UnitNumber</p>
+            <h1>Rental application</h1>
+            <partial name="_StatusBadge" model="Model.Status" />
+        </div>
+        <div class="card-actions">
+            @if (Model.CanReview)
+            {
+                <button class="btn btn-primary" type="button" data-modal-url="@Url.Action("ReviewModal", new { id = Model.Id })" data-modal-size="modal-lg">Review</button>
+            }
+            @if (Model.CanWithdraw)
+            {
+                <form asp-action="Withdraw" asp-route-id="@Model.Id" method="post" onsubmit="return confirm('Withdraw this application?');">
+                    <button type="submit" class="btn btn-secondary">Withdraw</button>
+                </form>
+            }
+            <a class="btn btn-ghost" asp-action="Index">Back to list</a>
+        </div>
+    </section>
+
+    <ol class="wizard-steps">
+        <li class="@(Model.CurrentSection == WizardSection.ApplicantInfo ? "is-current" : null)">Applicant information</li>
+        <li class="@(Model.CurrentSection == WizardSection.ResidenceHistory ? "is-current" : null)">Residence history</li>
+        <li class="@(Model.CurrentSection == WizardSection.Summary ? "is-current" : null)">Summary</li>
+    </ol>
+
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="wizard-form">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="CurrentSection" />
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+        @if (Model.CurrentSection == WizardSection.ApplicantInfo)
+        {
+            <partial name="_ApplicantInfoSection" model="Model" />
+        }
+        else if (Model.CurrentSection == WizardSection.ResidenceHistory)
+        {
+            <partial name="_ResidenceHistorySection" model="Model" />
+        }
+        else
+        {
+            <partial name="_SummarySection" model="Model" />
+        }
+
+        <div class="wizard-actions">
+            @if (Model.CurrentSection != WizardSection.ApplicantInfo)
+            {
+                <button type="submit" name="intent" value="back" class="btn btn-secondary" formnovalidate>Back</button>
+            }
+            @if (Model.CurrentSection != WizardSection.Summary)
+            {
+                <button type="submit" name="intent" value="continue" class="btn btn-primary">Continue</button>
+            }
+            @if (Model.CurrentSection == WizardSection.Summary && Model.CanEdit)
+            {
+                <button type="submit" name="intent" value="submit" class="btn btn-primary" @(Model.ApplicantInfoSaved && Model.ResidenceHistorySaved ? null : "disabled")>
+                    Submit application
+                </button>
+            }
+        </div>
+    </form>
+
+    @if (User.IsInRole(Roles.PropertyManager))
+    {
+        @await Component.InvokeAsync("StatusHistory", new { applicationId = Model.Id })
+    }
+</div>

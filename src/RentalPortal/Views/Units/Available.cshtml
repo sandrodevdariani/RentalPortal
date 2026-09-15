@@ -1,0 +1,24 @@
+@model IReadOnlyList<AvailableUnitViewModel>
+@{
+    ViewData["Title"] = "Available units";
+}
+<section class="page-head">
+    <div>
+        <p class="kicker">Leasing</p>
+        <h1>Available units</h1>
+        <p class="lede">A unit whose lease covers today is not on this list.</p>
+    </div>
+</section>
+@if (Model.Count == 0)
+{
+    <p class="empty">No units are available right now.</p>
+}
+else
+{
+    <div class="unit-grid">
+        @foreach (var unit in Model)
+        {
+            <partial name="_UnitCard" model="unit" />
+        }
+    </div>
+}

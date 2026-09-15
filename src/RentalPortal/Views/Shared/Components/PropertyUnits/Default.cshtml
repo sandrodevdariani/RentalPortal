@@ -1,0 +1,53 @@
+@model PropertyUnitsViewModel
+<div id="units-for-@Model.PropertyId" class="unit-table-wrap">
+    @if (Model.Units.Count == 0)
+    {
+        <p class="empty">No units yet.</p>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Unit</th>
+                    <th>Type</th>
+                    <th>Beds</th>
+                    <th>Rent</th>
+                    <th>Availability</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var unit in Model.Units)
+            {
+                <tr>
+                    <td>@unit.UnitNumber</td>
+                    <td>
+                        @unit.UnitTypeName
+                        @if (!unit.UnitTypeIsActive)
+                        {
+                            <span class="quiet">(inactive)</span>
+                        }
+                    </td>
+                    <td>@unit.Bedrooms</td>
+                    <td>@unit.MonthlyRent.ToString("C")</td>
+                    <td>
+                        @if (unit.IsAvailable)
+                        {
+                            <span class="pill pill-open">Available</span>
+                        }
+                        else
+                        {
+                            <span class="pill pill-leased">Leased</span>
+                        }
+                    </td>
+                    <td class="row-actions">
+                        <button class="btn btn-ghost btn-sm" type="button" data-modal-url="@Url.Action("EditModal", "Units", new { id = unit.Id })">Edit</button>
+                        <button class="btn btn-ghost btn-sm" type="button" data-modal-url="@Url.Action("DeleteModal", "Units", new { id = unit.Id })">Remove</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>

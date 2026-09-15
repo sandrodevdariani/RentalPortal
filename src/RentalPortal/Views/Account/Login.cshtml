@@ -1,0 +1,30 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+    Layout = "_AuthLayout";
+}
+<div class="auth-form-card">
+    <p class="kicker">Welcome back</p>
+    <h1>Log in</h1>
+    <form asp-action="Login" method="post">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+        <div class="field">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" autocomplete="username" />
+            <span asp-validation-for="Email" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" autocomplete="current-password" />
+            <span asp-validation-for="Password" class="field-error"></span>
+        </div>
+        <label class="check">
+            <input asp-for="RememberMe" /> Remember me
+        </label>
+        <button type="submit" class="btn btn-primary w-100">Log in</button>
+    </form>
+    <p class="auth-switch">No account? <a asp-action="Register">Create one</a></p>
+    <p class="demo-note">Demo · manager@alder.test or applicant@alder.test · Password1!</p>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

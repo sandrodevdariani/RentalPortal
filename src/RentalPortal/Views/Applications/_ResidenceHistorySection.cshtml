@@ -1,0 +1,11 @@
+@model ApplicationWizardViewModel
+<section class="panel">
+    <div class="section-head">
+        <h2>Residence history</h2>
+        @if (Model.IsResidenceHistoryEditable)
+        {
+            <button class="btn btn-secondary btn-sm" type="button" data-modal-url="@Url.Action("CreateModal", "Residences", new { applicationId = Model.Id })" data-modal-size="modal-lg">Add residence</button>
+        }
+    </div>
+    <partial name="~/Views/Residences/_ResidenceList.cshtml" model="new ResidenceListViewModel { ApplicationId = Model.Id, CanEdit = Model.IsResidenceHistoryEditable, Residences = Model.Residences }" />
+</section>

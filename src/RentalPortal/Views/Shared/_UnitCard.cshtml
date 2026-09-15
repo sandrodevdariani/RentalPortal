@@ -1,0 +1,26 @@
+@model AvailableUnitViewModel
+@{
+    var photos = new[] { "/img/interior.jpg", "/img/courtyard.jpg", "/img/balcony.jpg", "/img/hero.jpg" };
+    var photo = photos[Math.Abs(Model.UnitId) % photos.Length];
+    var showApply = ViewData["ShowApply"] as bool? ?? true;
+}
+<article class="unit-card">
+    <div class="unit-card-photo" style="background-image:url('@photo')"></div>
+    <div class="unit-card-body">
+        <h3>@Model.PropertyName</h3>
+        <p>@Model.Address</p>
+        <p>Unit @Model.UnitNumber · @Model.UnitType · @Model.Bedrooms bd</p>
+        <p class="rent">@Model.MonthlyRent.ToString("C") <span style="font-weight:400;color:var(--ink-4)">/ month</span></p>
+        @if (showApply && User.Identity?.IsAuthenticated == true && User.IsInRole(Roles.Applicant))
+        {
+            <form asp-controller="Applications" asp-action="Start" method="post">
+                <input type="hidden" name="unitId" value="@Model.UnitId" />
+                <button type="submit" class="btn btn-primary btn-sm">Apply</button>
+            </form>
+        }
+        else if (showApply)
+        {
+            <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Register">Apply</a>
+        }
+    </div>
+</article>

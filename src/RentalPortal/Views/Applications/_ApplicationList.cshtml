@@ -1,0 +1,35 @@
+@model IReadOnlyList<ApplicationListItemViewModel>
+<div id="application-list">
+    @if (Model.Count == 0)
+    {
+        <p class="empty">No applications match these filters.</p>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Applicant</th>
+                    <th>Property</th>
+                    <th>Unit</th>
+                    <th>Status</th>
+                    <th>Updated</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ApplicantName</td>
+                    <td>@item.PropertyName</td>
+                    <td>@item.UnitNumber</td>
+                    <td><partial name="_StatusBadge" model="item.Status" /></td>
+                    <td>@item.UpdatedAt.LocalDateTime.ToString("MMM d, yyyy")</td>
+                    <td><a asp-action="Edit" asp-route-id="@item.Id">Open</a></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>

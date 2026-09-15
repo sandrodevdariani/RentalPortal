@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] ?? "Sign in") · Alder &amp; Co.</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="auth-shell">
+        <aside class="auth-pane">
+            <a class="brand" asp-controller="Home" asp-action="Index" style="color:#f6f3ec !important; margin-bottom:2rem;">
+                <span class="brand-mark" style="background:#f6f3ec;color:#14110f">A</span>
+                <span class="brand-name">Alder &amp; Co.</span>
+            </a>
+            <p class="kicker" style="color:rgba(246,243,236,0.55)">Vol. I · Capitol Hill · Seattle</p>
+            <h1>The building is the product.<br /><em style="color:rgba(246,243,236,0.62)">The lease is the promise.</em></h1>
+            <p>Applicants apply for a specific unit. Managers review in one pass. Approval issues a twelve-month lease — never a second one on an occupied home.</p>
+            <div class="auth-ledger">
+                <header>
+                    <span>Today’s leasing desk</span>
+                    <span>8 of 24 events</span>
+                </header>
+                <ul class="plain-list" style="margin:0">
+                    <li><time>08:12</time><span>Harbor Court 204 returned — need a current landlord.</span></li>
+                    <li><time>10:41</time><span>Oak &amp; Pine 12A submitted by Jonah Reed.</span></li>
+                    <li><time>13:05</time><span>Alder House 3N approved. Lease starts today.</span></li>
+                    <li><time>16:22</time><span>Riverside L2 withdrawn by the applicant.</span></li>
+                </ul>
+            </div>
+        </aside>
+        <section class="auth-side">
+            @RenderBody()
+        </section>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

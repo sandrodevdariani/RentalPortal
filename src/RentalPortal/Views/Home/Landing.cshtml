@@ -1,0 +1,92 @@
+@model LandingViewModel
+@{
+    ViewData["Title"] = "Home";
+    ViewData["FullBleed"] = true;
+}
+<div class="container-wide">
+    <section class="hero">
+        <div>
+            <p class="kicker">Alder &amp; Co. · Seattle residences</p>
+            <h1>Find a home.<br />Apply once.<br />Hear back clearly.</h1>
+            <p class="lede">A leasing desk for our buildings — Harbor Court, Oak &amp; Pine, The Alder House, Riverside Lofts. Applicants complete one file. Managers review it. Approval issues a twelve-month lease.</p>
+            <div class="hero-actions">
+                <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Start an application</a>
+                <a class="btn btn-secondary" asp-controller="Account" asp-action="Login">I already have an account</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="~/img/hero.jpg" alt="Harbor Court residences at dusk" />
+            <div class="hero-float">
+                <span>Featured · Capitol Hill</span>
+                <strong>Harbor Court</strong>
+                <span>Studios to penthouse · 12-month terms</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div><b>@Model.PropertyCount</b><span>Properties on the books</span></div>
+        <div><b>@Model.AvailableCount</b><span>Units available today</span></div>
+        <div><b>12 mo</b><span>Lease term on every approval</span></div>
+    </div>
+</div>
+
+<section class="section" style="background: var(--paper-2); padding: 3.5rem 0;">
+    <div class="container-wide">
+        <div class="section-head">
+            <div>
+                <p class="kicker">Available now</p>
+                <h2>Homes you can apply for today</h2>
+            </div>
+        </div>
+        <div class="unit-grid">
+            @foreach (var unit in Model.Featured)
+            {
+                <partial name="_UnitCard" model="unit" />
+            }
+        </div>
+    </div>
+</section>
+
+<section class="section" id="how">
+    <div class="container-wide">
+        <p class="kicker">How it works</p>
+        <h2 class="section-head" style="display:block;margin-bottom:1.4rem">Three steps. One file.</h2>
+        <div class="steps">
+            <article class="step">
+                <div class="step-num">01 — Choose</div>
+                <h3>Pick an available unit</h3>
+                <p>Anything with a lease covering today is already off the list. What you see can actually be applied for.</p>
+            </article>
+            <article class="step">
+                <div class="step-num">02 — Tell us</div>
+                <h3>Applicant info &amp; residences</h3>
+                <p>One page, two sections, then a summary. Residences are added through a modal. Save as you go.</p>
+            </article>
+            <article class="step">
+                <div class="step-num">03 — Decide</div>
+                <h3>Review, return, or lease</h3>
+                <p>Managers approve, return with a comment, or deny. Approval writes a twelve-month lease starting today.</p>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container-wide">
+        <div class="role-grid">
+            <article class="role-card" style="background-image:url('/img/interior.jpg')">
+                <p class="kicker" style="color:#f1d9cc">Applicants</p>
+                <h2>Apply, correct, resubmit.</h2>
+                <p>Draft and returned files stay editable. Submitted, approved, denied, or withdrawn files do not.</p>
+                <a class="btn btn-accent" asp-controller="Account" asp-action="Register">Create an applicant account</a>
+            </article>
+            <article class="role-card" style="background-image:url('/img/balcony.jpg')">
+                <p class="kicker" style="color:#f1d9cc">Property managers</p>
+                <h2>Buildings, units, reviews.</h2>
+                <p>Maintain the portfolio in place. Review a submitted application without creating a second lease on an occupied unit.</p>
+                <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Create a manager account</a>
+            </article>
+        </div>
+    </div>
+</section>

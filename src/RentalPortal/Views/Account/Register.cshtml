@@ -1,0 +1,55 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Sign up";
+    Layout = "_AuthLayout";
+}
+<div class="auth-form-card">
+    <p class="kicker">Create an account</p>
+    <h1>Join the desk</h1>
+    <form asp-action="Register" method="post">
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+        <div class="row g-3">
+            <div class="col-md-6 field">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="field-error"></span>
+            </div>
+            <div class="col-md-6 field">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="field-error"></span>
+            </div>
+        </div>
+        <div class="field">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" autocomplete="username" />
+            <span asp-validation-for="Email" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" class="form-control" />
+            <span asp-validation-for="Phone" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Role"></label>
+            <select asp-for="Role" class="form-select">
+                <option value="@Roles.Applicant">Applicant</option>
+                <option value="@Roles.PropertyManager">Property Manager</option>
+            </select>
+            <span asp-validation-for="Role" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="Password" class="field-error"></span>
+        </div>
+        <div class="field">
+            <label asp-for="ConfirmPassword"></label>
+            <input asp-for="ConfirmPassword" class="form-control" autocomplete="new-password" />
+            <span asp-validation-for="ConfirmPassword" class="field-error"></span>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Create account</button>
+    </form>
+    <p class="auth-switch">Already registered? <a asp-action="Login">Log in</a></p>
+</div>
+@section Scripts { <partial name="_ValidationScriptsPartial" /> }

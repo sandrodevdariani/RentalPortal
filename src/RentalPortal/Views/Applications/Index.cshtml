@@ -1,0 +1,27 @@
+@model ApplicationListViewModel
+@{
+    ViewData["Title"] = "Applications";
+    var isManager = User.IsInRole(Roles.PropertyManager);
+}
+<section class="page-head">
+    <div>
+        <p class="kicker">@(isManager ? "All applicants" : "Your files")</p>
+        <h1>Applications</h1>
+    </div>
+</section>
+<form method="get" class="filter-bar">
+    <div class="field">
+        <label asp-for="Status">Status</label>
+        <select asp-for="Status" asp-items="Model.Statuses" class="form-select">
+            <option value="">Any status</option>
+        </select>
+    </div>
+    <div class="field">
+        <label asp-for="PropertyId">Property</label>
+        <select asp-for="PropertyId" asp-items="Model.Properties" class="form-select">
+            <option value="">Any property</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-secondary">Filter</button>
+</form>
+<partial name="_ApplicationList" model="Model.Items" />

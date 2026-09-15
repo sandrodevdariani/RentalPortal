@@ -1,0 +1,112 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
+    var fullBleed = ViewData["FullBleed"] as bool? == true;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@(ViewData["Title"] ?? "Portal") · Alder &amp; Co.</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="container-wide topbar-inner">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark">A</span>
+                <span>
+                    <span class="brand-name">Alder &amp; Co.</span>
+                    <span class="brand-tag">Residential leasing</span>
+                </span>
+            </a>
+            <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Menu">☰</button>
+            <nav class="topbar-nav" id="site-nav">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    @if (User.IsInRole(Roles.Applicant))
+                    {
+                        <a asp-controller="Units" asp-action="Available">Available units</a>
+                        <a asp-controller="Applications" asp-action="Index">My applications</a>
+                    }
+                    @if (User.IsInRole(Roles.PropertyManager))
+                    {
+                        <a asp-controller="Properties" asp-action="Index">Properties</a>
+                        <a asp-controller="Applications" asp-action="Index">
+                            Applications
+                            @await Component.InvokeAsync("PendingReviews")
+                        </a>
+                    }
+                    <span class="nav-user">@UserManager.GetUserName(User)</span>
+                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                        <button type="submit" class="link-button">Log out</button>
+                    </form>
+                }
+                else
+                {
+                    <a href="#how">How it works</a>
+                    <a asp-controller="Account" asp-action="Login">Log in</a>
+                    <a class="btn btn-primary btn-sm" asp-controller="Account" asp-action="Register">Create account</a>
+                }
+            </nav>
+        </div>
+    </header>
+
+    @if (TempData["Success"] is string success)
+    {
+        <div class="flash flash-success">@success</div>
+    }
+    @if (TempData["Error"] is string error)
+    {
+        <div class="flash flash-error">@error</div>
+    }
+
+    <main class="site-main @(fullBleed ? "bleed" : null)">
+        @if (fullBleed)
+        {
+            @RenderBody()
+        }
+        else
+        {
+            <div class="container-wide">
+                @RenderBody()
+            </div>
+        }
+    </main>
+
+    <footer class="site-footer">
+        <div class="container-wide footer-grid">
+            <div>
+                <div class="brand" style="margin-bottom:0.6rem">
+                    <span class="brand-mark">A</span>
+                    <span class="brand-name">Alder &amp; Co.</span>
+                </div>
+                <p>Seattle residences. One application. A twelve-month lease when approved.</p>
+            </div>
+            <div>
+                <p class="kicker">Applicants</p>
+                <p><a asp-controller="Account" asp-action="Register">Create an account</a><br />
+                <a asp-controller="Account" asp-action="Login">Log in</a></p>
+            </div>
+            <div>
+                <p class="kicker">Managers</p>
+                <p>Review, return, or approve. Occupied units cannot take a second lease.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="app-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" id="app-modal-content"></div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

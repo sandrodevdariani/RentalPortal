@@ -1,0 +1,41 @@
+@{
+    ViewData["Title"] = "Home";
+}
+<section class="page-head">
+    <div>
+        <p class="kicker">Property manager</p>
+        <h1>Portfolio overview</h1>
+    </div>
+    <div class="hero-actions">
+        <a class="btn btn-primary" asp-controller="Applications" asp-action="Index" asp-route-status="@((int)ApplicationStatus.Submitted)">Review queue</a>
+        <a class="btn btn-secondary" asp-controller="Properties" asp-action="Index">Manage properties</a>
+    </div>
+</section>
+<div class="stat-row">
+    <article>
+        <span>Awaiting review</span>
+        <strong>@ViewBag.Pending</strong>
+    </article>
+    <article>
+        <span>Properties</span>
+        <strong>@ViewBag.Properties</strong>
+    </article>
+    <article>
+        <span>Units</span>
+        <strong>@ViewBag.Units</strong>
+    </article>
+</div>
+<div class="role-grid" style="margin-top:1.5rem">
+    <article class="role-card" style="background-image:url('/img/hero.jpg')">
+        <p class="kicker" style="color:#f1d9cc">Buildings</p>
+        <h2>Harbor Court and the rest of the book.</h2>
+        <p>Add properties and units in place. Inactive unit types stay on the homes that already use them.</p>
+        <a class="btn btn-accent" asp-controller="Properties" asp-action="Index">Open properties</a>
+    </article>
+    <article class="role-card" style="background-image:url('/img/courtyard.jpg')">
+        <p class="kicker" style="color:#f1d9cc">Review</p>
+        <h2>Approve writes the lease.</h2>
+        <p>Return or deny with a comment. A unit with an active lease cannot take a second one.</p>
+        <a class="btn btn-primary" asp-controller="Applications" asp-action="Index">Open applications</a>
+    </article>
+</div>

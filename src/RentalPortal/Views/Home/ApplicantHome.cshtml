@@ -1,0 +1,55 @@
+@{
+    ViewData["Title"] = "Home";
+    var available = (IReadOnlyList<AvailableUnitViewModel>)ViewBag.Available;
+    var applications = (IReadOnlyList<ApplicationListItemViewModel>)ViewBag.Applications;
+}
+<section class="page-head">
+    <div>
+        <p class="kicker">Applicant</p>
+        <h1>Your leasing desk</h1>
+    </div>
+    <a class="btn btn-primary" asp-controller="Units" asp-action="Available">Browse units</a>
+</section>
+<div class="split" style="margin-bottom:2rem">
+    <section class="panel">
+        <div class="section-head">
+            <h2>Open applications</h2>
+            <a asp-controller="Applications" asp-action="Index">View all</a>
+        </div>
+        @if (applications.Count == 0)
+        {
+            <p class="empty">You have not started an application yet.</p>
+        }
+        else
+        {
+            <ul class="plain-list">
+                @foreach (var app in applications)
+                {
+                    <li>
+                        <a asp-controller="Applications" asp-action="Edit" asp-route-id="@app.Id">
+                            @app.PropertyName · Unit @app.UnitNumber
+                        </a>
+                        <partial name="_StatusBadge" model="app.Status" />
+                    </li>
+                }
+            </ul>
+        }
+    </section>
+    <section class="panel" style="background-image:url('/img/interior.jpg');background-size:cover;min-height:220px;position:relative;color:#f6f3ec">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,15,.15),rgba(20,17,15,.72));border-radius:20px"></div>
+        <div style="position:relative;z-index:1">
+            <p class="kicker" style="color:#f1d9cc">Returned files stay editable</p>
+            <h2 style="color:#f6f3ec">Correct and send it back.</h2>
+        </div>
+    </section>
+</div>
+<div class="section-head">
+    <h2>Available units</h2>
+    <a asp-controller="Units" asp-action="Available">Browse all</a>
+</div>
+<div class="unit-grid">
+    @foreach (var unit in available.Take(3))
+    {
+        <partial name="_UnitCard" model="unit" />
+    }
+</div>

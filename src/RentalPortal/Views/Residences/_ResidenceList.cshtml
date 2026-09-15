@@ -1,0 +1,45 @@
+@model ResidenceListViewModel
+<div id="residence-list">
+    @if (Model.Residences.Count == 0)
+    {
+        <p class="empty">No residences added yet.</p>
+    }
+    else
+    {
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Address</th>
+                    <th>Landlord</th>
+                    <th>Phone</th>
+                    <th>Dates</th>
+                    @if (Model.CanEdit)
+                    {
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var row in Model.Residences)
+            {
+                <tr>
+                    <td>@row.Address</td>
+                    <td>@row.LandlordName</td>
+                    <td>@row.LandlordPhone</td>
+                    <td>
+                        @row.MoveInDate.ToString("MMM yyyy")
+                        – @(row.MoveOutDate?.ToString("MMM yyyy") ?? "present")
+                    </td>
+                    @if (Model.CanEdit)
+                    {
+                        <td class="row-actions">
+                            <button class="btn btn-ghost btn-sm" type="button" data-modal-url="@Url.Action("EditModal", "Residences", new { id = row.Id })">Edit</button>
+                            <button class="btn btn-ghost btn-sm" type="button" data-modal-url="@Url.Action("DeleteModal", "Residences", new { id = row.Id })">Remove</button>
+                        </td>
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</div>

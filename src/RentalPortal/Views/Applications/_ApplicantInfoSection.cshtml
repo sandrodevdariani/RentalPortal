@@ -1,0 +1,38 @@
+@model ApplicationWizardViewModel
+<section class="panel">
+    <h2>Applicant information</h2>
+    @if (Model.IsApplicantInfoEditable)
+    {
+        <div class="field">
+            <label asp-for="FullName"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="field-error"></span>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6 field">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="field-error"></span>
+            </div>
+            <div class="col-md-6 field">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="field-error"></span>
+            </div>
+        </div>
+        <div class="field">
+            <label asp-for="CurrentAddress"></label>
+            <textarea asp-for="CurrentAddress" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="CurrentAddress" class="field-error"></span>
+        </div>
+    }
+    else
+    {
+        <dl class="readout">
+            <div><dt>Name</dt><dd>@(string.IsNullOrWhiteSpace(Model.FullName) ? "—" : Model.FullName)</dd></div>
+            <div><dt>Phone</dt><dd>@(string.IsNullOrWhiteSpace(Model.Phone) ? "—" : Model.Phone)</dd></div>
+            <div><dt>Email</dt><dd>@(string.IsNullOrWhiteSpace(Model.Email) ? "—" : Model.Email)</dd></div>
+            <div><dt>Current address</dt><dd>@(string.IsNullOrWhiteSpace(Model.CurrentAddress) ? "—" : Model.CurrentAddress)</dd></div>
+        </dl>
+    }
+</section>

@@ -1,0 +1,12 @@
+@model ApplicationWizardViewModel
+<section class="panel">
+    <h2>Summary</h2>
+    <p class="lede">Review both sections before submitting. Submit is available after both sections have been saved.</p>
+    <partial name="_ApplicantInfoSection" model="Model" />
+    <hr class="soft" />
+    <partial name="_ResidenceHistorySection" model="Model" />
+    @if (!Model.ApplicantInfoSaved || !Model.ResidenceHistorySaved)
+    {
+        <p class="flash flash-error">Save applicant information and residence history before submitting.</p>
+    }
+</section>
